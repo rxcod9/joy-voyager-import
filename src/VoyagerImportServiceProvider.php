@@ -6,6 +6,11 @@ namespace Joy\VoyagerImport;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Joy\VoyagerImport\Console\Commands\AllDataTypesImport;
+use Joy\VoyagerImport\Console\Commands\AllDataTypesTemplateExport;
+use Joy\VoyagerImport\Console\Commands\DataTypeImport;
+use Joy\VoyagerImport\Console\Commands\DataTypeTemplateExport;
+use TCG\Voyager\Facades\Voyager;
 
 /**
  * Class VoyagerImportServiceProvider
@@ -26,6 +31,8 @@ class VoyagerImportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Voyager::addAction(\Joy\VoyagerImport\Actions\ImportAction::class);
+
         $this->registerPublishables();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'joy-voyager-import');
@@ -71,7 +78,9 @@ class VoyagerImportServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/voyager-import.php', 'joy-voyager-import');
 
-        $this->registerCommands();
+        if ($this->app->runningInConsole()) {
+            $this->registerCommands();
+        }
     }
 
     /**
@@ -96,6 +105,27 @@ class VoyagerImportServiceProvider extends ServiceProvider
 
     protected function registerCommands(): void
     {
-        //
+        $this->app->singleton('command.joy-voyager.export-template', function () {
+            return new DataTypeTemplateExport();
+        });
+
+        $this->app->singleton('command.joy-voyager.export-all-template', function () {
+            return new AllDataTypesTemplateExport();
+        });
+
+        $this->app->singleton('command.joy-voyager.import', function () {
+            return new DataTypeImport();
+        });
+
+        $this->app->singleton('command.joy-voyager.import-all', function () {
+            return new AllDataTypesImport();
+        });
+
+        $this->commands([
+            'command.joy-voyager.export-template',
+            'command.joy-voyager.export-all-template',
+            'command.joy-voyager.import',
+            'command.joy-voyager.import-all'
+        ]);
     }
 }
