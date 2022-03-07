@@ -115,7 +115,7 @@ class DataTypeTemplateExport implements
             }
 
             $query->limit(1);
-            
+
             $row = $this->dataType->rows->where('field', $orderBy)->firstWhere('type', 'relationship');
             if ($orderBy && (in_array($orderBy, $this->dataType->fields()) || !empty($row))) {
                 $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
