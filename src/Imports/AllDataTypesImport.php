@@ -25,7 +25,7 @@ class AllDataTypesImport implements
     protected $input = [];
 
     /**
-     * @param array    $input
+     * @param array $input
      */
     public function set(
         $input = []
@@ -41,9 +41,9 @@ class AllDataTypesImport implements
     {
         return [
             // Handle by a closure.
-            AfterImport::class => function(AfterImport $event) {
+            AfterImport::class => function (AfterImport $event) {
                 event(new AllBreadDataImported($this->input));
-            },          
+            },
         ];
     }
 

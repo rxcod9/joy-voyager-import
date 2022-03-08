@@ -87,9 +87,9 @@ class DataTypeTemplateExport implements
     {
         return [
             // Handle by a closure.
-            BeforeWriting::class => function(BeforeWriting $event) {
+            BeforeWriting::class => function (BeforeWriting $event) {
                 event(new BreadDataTemplateExported($this->dataType, $this->input));
-            },          
+            },
         ];
     }
 

@@ -28,7 +28,7 @@ class AllDataTypesTemplateExport implements
     protected $input = [];
 
     /**
-     * @param array    $input
+     * @param array $input
      */
     public function set(
         $input = []
@@ -44,9 +44,9 @@ class AllDataTypesTemplateExport implements
     {
         return [
             // Handle by a closure.
-            BeforeWriting::class => function(BeforeWriting $event) {
+            BeforeWriting::class => function (BeforeWriting $event) {
                 event(new AllBreadDataTemplateExported($this->input));
-            },          
+            },
         ];
     }
 
