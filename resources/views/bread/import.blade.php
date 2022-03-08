@@ -41,6 +41,7 @@
     </form>
 </div><!-- /.modal -->
 
+@push('javascript')
 <script>
 $(function() {
     // Bulk import selectors
@@ -80,3 +81,4 @@ $(function() {
     });
 });
 </script>
+@endpush
