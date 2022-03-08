@@ -50,7 +50,13 @@ class DataTypeImport extends Command
 
         $import = app($importClass);
 
-        $import->set($dataType)->withOutput($this->output)->import(
+        $import->set(
+            $dataType,
+            [],
+            $this->options()
+        )->withOutput(
+            $this->output
+        )->import(
             $path,
             $disk,
             $readerType

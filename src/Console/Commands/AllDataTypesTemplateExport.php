@@ -42,7 +42,11 @@ class AllDataTypesTemplateExport extends Command
 
         $import = app($importClass);
 
-        $import->withOutput($this->output)->store(
+        $import->set(
+            $this->options()
+        )->withOutput(
+            $this->output
+        )->store(
             $path,
             $disk,
             $writerType

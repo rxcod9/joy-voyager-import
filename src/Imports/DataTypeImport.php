@@ -9,20 +9,22 @@ use TCG\Voyager\Models\DataType;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use Joy\VoyagerImport\Events\BreadDataImported;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use TCG\Voyager\Facades\Voyager;
+use Maatwebsite\Excel\Events\AfterImport;
 
 class DataTypeImport implements
     ToModel,
     WithHeadingRow,
     WithProgressBar,
     WithValidation,
-    WithUpserts
+    WithUpserts,
+    WithEvents
 {
     use BreadRelationshipParser;
     use Importable;
@@ -52,6 +54,19 @@ class DataTypeImport implements
         $this->dataType = $dataType;
         $this->input    = $input;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function registerEvents(): array
+    {
+        return [
+            // Handle by a closure.
+            AfterImport::class => function (AfterImport $event) {
+                event(new BreadDataImported($this->dataType, $this->input));
+            },
+        ];
     }
 
     /**
@@ -253,17 +268,17 @@ class DataTypeImport implements
 
         foreach ($this->dataType->rows as $row) {
             if ($data->hasSetMutator($row->field . '_import')) {
-                $data->{$row->field . '_import'} = (($item[$row->field] ?? null) ?? null);
+                $data->{$row->field . '_import'} = ($item[$row->field] ?? null);
             }
 
             if (isset($row->details->view)) {
                 $data->{$row->field} = null;
             } elseif ($row->type == 'image') {
                 if (!filter_var(($item[$row->field] ?? null), FILTER_VALIDATE_URL)) {
-                    $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                    $data->{$row->field} = ($item[$row->field] ?? null);
                 } else {
                     // @TODO remove starting string added by Voyager::image(
-                    $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                    $data->{$row->field} = ($item[$row->field] ?? null);
                 }
             } elseif ($row->type == 'relationship') {
                 // @TODO handle each type of relationship
@@ -307,29 +322,32 @@ class DataTypeImport implements
                 if (property_exists($row->details, 'format') && !is_null(($item[$row->field] ?? null))) {
                     $data->{$row->field} = \Carbon\Carbon::parse(($item[$row->field] ?? null))->format('YYYY-MM-DD HH:MM:SS');
                 } else {
-                    $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                    $data->{$row->field} = ($item[$row->field] ?? null);
                 }
             } elseif ($row->type == 'checkbox') {
                 if (property_exists($row->details, 'on') && property_exists($row->details, 'off')) {
-                    $data->{$row->field} = (($item[$row->field] ?? null) ?? null) === $row->details->on;
+                    $data->{$row->field} = ($item[$row->field] ?? null) === $row->details->on;
                 } else {
-                    $data->{$row->field} = (bool) (int) (($item[$row->field] ?? null) ?? null);
+                    $data->{$row->field} = (bool) (int) ($item[$row->field] ?? null);
                 }
             } elseif ($row->type == 'color') {
-                $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                $data->{$row->field} = ($item[$row->field] ?? null);
             } elseif ($row->type == 'text') {
                 // view('voyager::multilingual.input-hidden-bread-browse');
                 // $data->{$row->field} = mb_strlen( ($item[$row->field] ?? null) ) > 200 ? mb_substr(($item[$row->field] ?? null), 0, 200) . ' ...' : ($item[$row->field] ?? null);
-                $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                $data->{$row->field} = ($item[$row->field] ?? null);
             } elseif ($row->type == 'password') {
                 // view('voyager::multilingual.input-hidden-bread-browse');
                 // $data->{$row->field} = mb_strlen( ($item[$row->field] ?? null) ) > 200 ? mb_substr(($item[$row->field] ?? null), 0, 200) . ' ...' : ($item[$row->field] ?? null);
                 // @TODO check if not hash then use bcrypt
-                $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                // Ignore if password is not set
+                if (($item[$row->field] ?? null)) {
+                    $data->{$row->field} = ($item[$row->field] ?? null);
+                }
             } elseif ($row->type == 'text_area') {
                 // view('voyager::multilingual.input-hidden-bread-browse');
                 // $data->{$row->field} = mb_strlen( ($item[$row->field] ?? null) ) > 200 ? mb_substr(($item[$row->field] ?? null), 0, 200) . ' ...' : ($item[$row->field] ?? null);
-                $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                $data->{$row->field} = ($item[$row->field] ?? null);
             } elseif ($row->type == 'file' && !empty(($item[$row->field] ?? null))) {
                 // $value = [];
                 // // view('voyager::multilingual.input-hidden-bread-browse');
@@ -346,7 +364,7 @@ class DataTypeImport implements
                 // view('voyager::multilingual.input-hidden-bread-browse');
                 // $data->{$row->field} = mb_strlen( strip_tags(($item[$row->field] ?? null), '<b><i><u>') ) > 200 ? mb_substr(strip_tags(($item[$row->field] ?? null), '<b><i><u>'), 0, 200) . ' ...' : strip_tags(($item[$row->field] ?? null), '<b><i><u>');
                 // @TODO newlines may needed to be converted into html
-                $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                $data->{$row->field} = ($item[$row->field] ?? null);
             } elseif ($row->type == 'coordinates') {
                 // $url = 'https://maps.googleapis.com/maps/api/staticmap?zoom=' . config('voyager.googlemaps.zoom') . '&size=400x100&maptype=roadmap&';
                 // foreach ($row['getCoordinates']() as $point) {
@@ -375,7 +393,7 @@ class DataTypeImport implements
                 // $value = [];
 
                 // if (is_array(($item[$row->field] ?? null))) {
-                //     $files = (($item[$row->field] ?? null) ?? null);
+                //     $files = ($item[$row->field] ?? null);
                 // } else {
                 //     $files = json_decode(($item[$row->field] ?? null));
                 // }
@@ -404,10 +422,10 @@ class DataTypeImport implements
                 //         if (!filter_var(($item[$row->field] ?? null), FILTER_VALIDATE_URL)) {
                 //             $value = Voyager::image(($item[$row->field] ?? null));
                 //         } else {
-                //             $value = (($item[$row->field] ?? null) ?? null);
+                //             $value = ($item[$row->field] ?? null);
                 //         }
                 //     } else {
-                //         $value = (($item[$row->field] ?? null) ?? null);
+                //         $value = ($item[$row->field] ?? null);
                 //     }
                 // } else {
                 //     $value = trans_choice('voyager::media.files', 0);
@@ -416,7 +434,7 @@ class DataTypeImport implements
                 $data->{$row->field} = null; // implode(', ', $value);
             } else {
                 // view('voyager::multilingual.input-hidden-bread-browse');
-                // $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
+                // $data->{$row->field} = ($item[$row->field] ?? null);
             }
         }
 

@@ -38,7 +38,11 @@ class AllDataTypesImport extends Command
 
         $import = app($importClass);
 
-        $import->withOutput($this->output)->import(
+        $import->set(
+            $this->options()
+        )->withOutput(
+            $this->output
+        )->import(
             $path,
             $disk,
             $readerType
