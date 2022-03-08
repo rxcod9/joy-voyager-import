@@ -28,6 +28,9 @@ composer require joy/voyager-import
 
 # 2. Publish
 php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerImportServiceProvider" --force
+
+# 3. Publish Voyager overrided actions blade [MANDATORY STEP FOR IMPORT BULK BUTTON TO WORK]
+php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerImportServiceProvider" --tag=voyager-actions-views --force
 ```
 
 ---

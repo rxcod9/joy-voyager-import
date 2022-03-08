@@ -96,7 +96,12 @@ class VoyagerImportServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/joy-voyager-import'),
+            __DIR__ . '/../resources/views/bread/partials' => resource_path('views/vendor/voyager/bread/partials'),
         ], 'views');
+
+        $this->publishes([
+            __DIR__ . '/../resources/views/bread/partials' => resource_path('views/vendor/voyager/bread/partials'),
+        ], 'voyager-actions-views');
 
         $this->publishes([
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/joy-voyager-import'),
@@ -105,11 +110,11 @@ class VoyagerImportServiceProvider extends ServiceProvider
 
     protected function registerCommands(): void
     {
-        $this->app->singleton('command.joy-voyager.export-template', function () {
+        $this->app->singleton('command.joy-voyager.import-template', function () {
             return new DataTypeTemplateExport();
         });
 
-        $this->app->singleton('command.joy-voyager.export-all-template', function () {
+        $this->app->singleton('command.joy-voyager.import-all-template', function () {
             return new AllDataTypesTemplateExport();
         });
 
@@ -122,8 +127,8 @@ class VoyagerImportServiceProvider extends ServiceProvider
         });
 
         $this->commands([
-            'command.joy-voyager.export-template',
-            'command.joy-voyager.export-all-template',
+            'command.joy-voyager.import-template',
+            'command.joy-voyager.import-all-template',
             'command.joy-voyager.import',
             'command.joy-voyager.import-all'
         ]);

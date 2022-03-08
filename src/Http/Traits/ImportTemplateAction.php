@@ -1,0 +1,66 @@
+<?php
+
+namespace Joy\VoyagerImport\Http\Traits;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Models\DataType;
+
+use Joy\VoyagerImport\Imports\DataTypeImport;
+
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Joy\VoyagerImport\Exports\DataTypeTemplateExport;
+use TCG\Voyager\Actions\AbstractAction;
+use Maatwebsite\Excel\Excel;
+
+trait ImportTemplateAction
+{
+    //***************************************
+    //               ____
+    //              |  _ \
+    //              | |_) |
+    //              |  _ <
+    //              | |_) |
+    //              |____/
+    //
+    //      ImportTemplate DataTable our Data Type (B)READ
+    //
+    //****************************************
+
+    public function importTemplate(Request $request)
+    {
+        // GET THE SLUG, ex. 'posts', 'pages', etc.
+        $slug = $this->getSlug($request);
+
+        // GET THE DataType based on the slug
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        // Check permission
+        $this->authorize('browse', app($dataType->model_name));
+
+        $writerType = $this->writerType ?? config('joy-voyager-import.writerType', Excel::XLSX);
+        $fileName   = $this->fileName ?? ($dataType->slug . '.' . Str::lower($writerType));
+
+        $exportClass = 'joy-voyager-import.import-template';
+
+        if (app()->bound("joy-voyager-import." . $dataType->slug . ".import-template")) {
+            $exportClass = "joy-voyager-import." . $dataType->slug . ".import-template";
+        }
+
+        $export = app($exportClass);
+
+        return $export->set(
+            $dataType,
+            $request->all(),
+        )->download(
+            $fileName,
+            $writerType
+        );
+    }
+}

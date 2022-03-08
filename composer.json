@@ -56,7 +56,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Joy\\VoyagerImport\\VoyagerImportServiceProvider"
+                "Joy\\VoyagerImport\\VoyagerImportServiceProvider",
+                "Joy\\VoyagerImport\\ImportServiceProvider"
             ]
         }
     },

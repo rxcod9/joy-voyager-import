@@ -48,7 +48,15 @@ class DataTypeTemplateExport extends Command
             $url
         ));
 
-        (new ExportsDataTypeTemplateExport($dataType))->withOutput($this->output)->store(
+        $exportClass = 'joy-voyager-import.import-template';
+
+        if (app()->bound("joy-voyager-import." . $dataType->slug . ".import-template")) {
+            $exportClass = "joy-voyager-import." . $dataType->slug . ".import-template";
+        }
+
+        $export = app($exportClass);
+
+        $export->set($dataType)->withOutput($this->output)->store(
             $path,
             $disk,
             $writerType

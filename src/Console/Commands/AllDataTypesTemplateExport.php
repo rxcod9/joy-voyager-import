@@ -39,7 +39,11 @@ class AllDataTypesTemplateExport extends Command
             $url
         ));
 
-        (new ExportsAllDataTypesTemplateExport())->withOutput($this->output)->store(
+        $importClass = 'joy-voyager-import.import-all-template';
+
+        $import = app($importClass);
+
+        $import->withOutput($this->output)->store(
             $path,
             $disk,
             $writerType

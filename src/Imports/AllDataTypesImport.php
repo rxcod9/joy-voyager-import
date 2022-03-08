@@ -7,12 +7,14 @@ namespace Joy\VoyagerImport\Imports;
 use Illuminate\Console\OutputStyle;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithProgressBar;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use TCG\Voyager\Facades\Voyager;
 
 class AllDataTypesImport implements
-    WithMultipleSheets
+    WithMultipleSheets,
+    WithProgressBar
 {
     use Importable;
 
@@ -25,32 +27,18 @@ class AllDataTypesImport implements
         $dataTypes = Voyager::model('DataType')->get();
 
         foreach ($dataTypes as $dataType) {
-            $sheets[] = new DataTypeImport($dataType);
+
+            $importClass = 'joy-voyager-import.import';
+
+            if (app()->bound("joy-voyager-import." . $dataType->slug . ".import")) {
+                $importClass = "joy-voyager-import." . $dataType->slug . ".import";
+            }
+
+            $import = app($importClass);
+
+            $sheets[$dataType->getTranslatedAttribute('display_name_plural')] = $import->set($dataType);
         }
 
         return $sheets;
-    }
-
-    /**
-     * @param  OutputStyle $output
-     * @return $this
-     */
-    public function withOutput(OutputStyle $output)
-    {
-        $this->output = $output;
-
-        return $this;
-    }
-
-    /**
-     * @return OutputStyle
-     */
-    public function getConsoleOutput(): OutputStyle
-    {
-        if (!$this->output instanceof OutputStyle) {
-            $this->output = new OutputStyle(new StringInput(''), new NullOutput());
-        }
-
-        return $this->output;
     }
 }

@@ -64,7 +64,7 @@ class DataTypeTemplateExport implements
      * @param array    $ids
      * @param array    $input
      */
-    public function __construct(
+    public function set(
         DataType $dataType,
         $ids = [],
         $input = []
@@ -73,6 +73,7 @@ class DataTypeTemplateExport implements
         $this->ids             = $ids;
         $this->input           = $input;
         $this->dataTypeContent = app($this->dataType->model_name);
+        return $this;
     }
 
     public function query()
@@ -107,14 +108,7 @@ class DataTypeTemplateExport implements
             }
 
             // If a column has a relationship associated with it, we do not want to show that field
-            $this->removeRelationshipField($this->dataType, 'browse');
-
-            // Export only selected
-            if ($this->ids) {
-                $query->whereKey($this->ids);
-            }
-
-            $query->limit(1);
+            // $this->removeRelationshipField($this->dataType, 'browse');
 
             $row = $this->dataType->rows->where('field', $orderBy)->firstWhere('type', 'relationship');
             if ($orderBy && (in_array($orderBy, $this->dataType->fields()) || !empty($row))) {
@@ -140,13 +134,12 @@ class DataTypeTemplateExport implements
             // If Model doesn't exist, get data from table name
             $query = DB::table($this->dataType->name);
 
-            // Export only selected
-            if ($this->ids) {
-                $query->whereKey($this->ids);
-            }
-
-            $query->limit(1);
             $model = false;
+        }
+
+        // Export only selected
+        if ($this->ids) {
+            $query->whereKey($this->ids);
         }
 
         return $query;
@@ -155,12 +148,12 @@ class DataTypeTemplateExport implements
     public function headings(): array
     {
         // If a column has a relationship associated with it, we do not want to show that field
-        $this->removeRelationshipField($this->dataType, 'browse');
+        // $this->removeRelationshipField($this->dataType, 'browse');
 
         $headings   = [];
-        $headings[] = '#'; // index column
-        foreach ($this->dataType->browseRows as $row) {
-            $headings[] = $row->getTranslatedAttribute('display_name');
+        // $headings[] = 'id'; // index column
+        foreach ($this->dataType->rows as $row) {
+            $headings[$row->field] = $row->field;
         }
         return $headings;
     }
@@ -171,11 +164,11 @@ class DataTypeTemplateExport implements
     public function map($data): array
     {
         // If a column has a relationship associated with it, we do not want to show that field
-        $this->removeRelationshipField($this->dataType, 'browse');
+        // $this->removeRelationshipField($this->dataType, 'browse');
 
         $columns   = [];
-        $columns[] = $data->id;
-        foreach ($this->dataType->browseRows as $row) {
+        // $columns[] = $data->id;
+        foreach ($this->dataType->rows as $row) {
             $column = null;
             if ($data->{$row->field . '_export'}) {
                 $data->{$row->field} = $data->{$row->field . '_export'};
@@ -195,11 +188,11 @@ class DataTypeTemplateExport implements
                     'options'         => $row->details
                 ])));
             } elseif ($row->type == 'image') {
-                if (!filter_var($data->{$row->field}, FILTER_VALIDATE_URL)) {
-                    $column = Voyager::image($data->{$row->field});
-                } else {
-                    $column = $data->{$row->field};
-                }
+                // if (!filter_var($data->{$row->field}, FILTER_VALIDATE_URL)) {
+                //     $column = Voyager::image($data->{$row->field});
+                // } else {
+                $column = $data->{$row->field};
+                // }
             } elseif ($row->type == 'relationship') {
                 $column = trim(strip_tags((string) view('voyager::formfields.relationship', [
                     'view'            => 'browse',
@@ -351,7 +344,7 @@ class DataTypeTemplateExport implements
                 $column = implode(', ', $values);
             } else {
                 // view('voyager::multilingual.input-hidden-bread-browse');
-                $values[] = $data->{$row->field};
+                $column = $data->{$row->field};
             }
             $columns[] = $column;
         }

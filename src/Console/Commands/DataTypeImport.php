@@ -5,6 +5,7 @@ namespace Joy\VoyagerImport\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Joy\VoyagerImport\Imports\DataTypeImport as ImportsDataTypeImport;
 use Maatwebsite\Excel\Excel;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,6 +26,7 @@ class DataTypeImport extends Command
 
         $this->importDataType(
             $dataType,
+            $this->argument('path'),
             $this->option('disk'),
             $this->option('readerType')
         );
@@ -34,20 +36,24 @@ class DataTypeImport extends Command
 
     protected function importDataType(
         DataType $dataType,
+        string $path,
         string $disk = null,
         string $readerType = Excel::XLSX
     ) {
-        $path = 'public/imports/' . $dataType->slug . '-' . date('YmdHis') . '.' . Str::lower($readerType);
-
-        $url = config('app.url') . Storage::disk($disk)->url($path);
-
         $this->output->info(sprintf(
-            'Importing to >>' . PHP_EOL . 'path : %s' . PHP_EOL . 'url : %s',
-            storage_path($path),
-            $url
+            'Importing from <<' . PHP_EOL . 'path : %s',
+            $path,
         ));
 
-        (new ImportsDataTypeImport($dataType))->withOutput($this->output)->import(
+        $importClass = 'joy-voyager-import.import';
+
+        if (app()->bound("joy-voyager-import." . $dataType->slug . ".import")) {
+            $importClass = "joy-voyager-import." . $dataType->slug . ".import";
+        }
+
+        $import = app($importClass);
+
+        $import->set($dataType)->withOutput($this->output)->import(
             $path,
             $disk,
             $readerType
@@ -63,6 +69,7 @@ class DataTypeImport extends Command
     {
         return [
             ['slug', InputArgument::REQUIRED, 'The DataType slug which you want to import'],
+            ['path', InputArgument::REQUIRED, 'The import file path'],
         ];
     }
 

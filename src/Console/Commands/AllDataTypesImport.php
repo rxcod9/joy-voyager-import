@@ -5,7 +5,9 @@ namespace Joy\VoyagerImport\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Joy\VoyagerImport\Imports\AllDataTypesImport as ImportsAllDataTypesImport;
 use Maatwebsite\Excel\Excel;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class AllDataTypesImport extends Command
@@ -18,6 +20,7 @@ class AllDataTypesImport extends Command
     {
         $this->output->title('Starting import');
         $this->importAllDataTypes(
+            $this->argument('path'),
             $this->option('disk'),
             $this->option('readerType')
         );
@@ -25,24 +28,36 @@ class AllDataTypesImport extends Command
     }
 
     protected function importAllDataTypes(
+        string $path,
         string $disk = null,
         string $readerType = Excel::XLSX
     ) {
-        $path = 'public/imports/' . (($filePath ?? 'import-all') . '-' . date('YmdHis') . '.' . Str::lower($readerType));
-
-        $url = config('app.url') . Storage::disk($disk)->url($path);
-
         $this->output->info(sprintf(
-            'Importing to >>' . PHP_EOL . 'path : %s' . PHP_EOL . 'url : %s',
-            storage_path($path),
-            $url
+            'Importing from <<' . PHP_EOL . 'path : %s',
+            $path,
         ));
 
-        (new ImportsAllDataTypesImport())->withOutput($this->output)->import(
+        $importClass = 'joy-voyager-import.import';
+
+        $import = app($importClass);
+
+        $import->withOutput($this->output)->import(
             $path,
             $disk,
             $readerType
         );
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['path', InputArgument::REQUIRED, 'The import file path'],
+        ];
     }
 
     /**

@@ -8,6 +8,11 @@ return [
     'enabled' => env('VOYAGER_IMPORT_ENABLED', true),
 
     /*
+     * If validation enabled for voyager-import package.
+     */
+    'validation' => env('VOYAGER_IMPORT_VALIDATION_ENABLED', false),
+
+    /*
     | Here you can specify for which data type slugs import is enabled
     | 
     | Supported: "*", or data type slugs "users", "roles"
@@ -68,4 +73,31 @@ return [
     |   "Slk", "Xml", "Gnumeric", "Html", "Mpdf", "Dompdf", "Tcpdf"
     */
     'writerType' => env('VOYAGER_IMPORT_WRITER_TYPE', 'Xlsx'),
+
+    /*
+    | Here you can specify which mimes are allowed to upload
+    | 
+    | Supported: "xlsx", "csv", "csv", "ods", "xls",
+    |   "slk", "xml", "gnumeric", "html", "mpdf", "dompdf", "tcpdf"
+    |
+    */
+
+    'allowed_mimes' => env('VOYAGER_IMPORT_ALLOWED_MIMES', 'xlsx,csv,csv,ods,xls,slk,xml,gnumeric,html,mpdf,dompdf,tcpdf'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Unique column config
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify unique column settings
+    | Make sure db also has unique index or primary index on that column
+    | Leave null for primary key
+    |
+    */
+
+    'unique_column' => [
+        'default' => null,
+        // 'users' => 'email',
+        // 'YOUR_DATATYPE_SLUG' => 'MODEL_UNIQUE_KEY',
+    ],
 ];

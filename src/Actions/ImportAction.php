@@ -5,6 +5,7 @@ namespace Joy\VoyagerImport\Actions;
 use Joy\VoyagerImport\Imports\DataTypeImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use TCG\Voyager\Actions\AbstractAction;
 use TCG\Voyager\Facades\Voyager;
@@ -13,9 +14,19 @@ use Maatwebsite\Excel\Excel;
 class ImportAction extends AbstractAction
 {
     /**
-     * Optional File Name
+     * Optional mimes
      */
-    protected $fileName;
+    protected $mimes;
+
+    /**
+     * Optional File Path
+     */
+    protected $filePath;
+
+    /**
+     * Optional Disk
+     */
+    protected $disk;
 
     /**
      * Optional Reader Type
@@ -34,7 +45,7 @@ class ImportAction extends AbstractAction
 
     public function getPolicy()
     {
-        return 'write';
+        return 'browse';
     }
 
     public function getAttributes()
@@ -73,17 +84,53 @@ class ImportAction extends AbstractAction
         // Check permission
         Gate::authorize('browse', app($dataType->model_name));
 
-        $readerType = $this->readerType ?? config('joy-voyager-import.readerType', Excel::XLSX);
-        $fileName   = $this->fileName ?? ($dataType->slug . '.' . Str::lower($readerType));
+        $mimes = $this->mimes ?? config('joy-voyager-import.allowed_mimes');
 
-        return (new DataTypeImport(
+        $validator = Validator::make(request()->all(), [
+            'file' => 'required|mimes:' . $mimes,
+        ]);
+
+        if($validator->fails()) {
+            return redirect($comingFrom)->with([
+                'message'    => $validator->errors()->first(),
+                'alert-type' => 'error',
+            ]);
+        }
+
+        $disk = $this->disk ?? config('joy-voyager-import.disk');
+        $readerType = $this->readerType ?? config('joy-voyager-import.readerType', Excel::XLSX);
+
+        $importClass = 'joy-voyager-import.import';
+
+        if (app()->bound("joy-voyager-import.$slug.import")) {
+            $importClass = "joy-voyager-import.$slug.import";
+        }
+
+        $import = app($importClass);
+
+        $import->set(
             $dataType,
-            array_filter($ids),
             request()->all(),
-        ))->import(
-            $fileName,
+        )->import(
+            request()->file('file'),
+            $disk,
             $readerType
         );
+
+        return redirect($comingFrom)->with([
+            'message'    => __('joy-voyager-import::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+            'alert-type' => 'success',
+        ]);
+    }
+
+    public function massView()
+    {
+        $view = 'joy-voyager-import::bread.import';
+
+        if (view()->exists("joy-voyager-import::" . $this->dataType->slug . ".import")) {
+            $view = "joy-voyager-import::" . $this->dataType->slug . ".import";
+        }
+        return $view;
     }
 
     protected function getSlug(Request $request)
