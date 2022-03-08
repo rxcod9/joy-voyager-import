@@ -42,7 +42,7 @@
 </div><!-- /.modal -->
 
 <script>
-$(window).load(function() {
+$(function() {
     // Bulk import selectors
     var $bulkImportBtn = $('#bulk_import_btn');
     var $bulkImportModal = $('#bulk_import_modal');
