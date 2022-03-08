@@ -5,7 +5,6 @@ namespace Joy\VoyagerImport\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Joy\VoyagerImport\Exports\DataTypeTemplateExport as ExportsDataTypeTemplateExport;
 use Maatwebsite\Excel\Excel;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -50,8 +49,8 @@ class DataTypeTemplateExport extends Command
 
         $exportClass = 'joy-voyager-import.import-template';
 
-        if (app()->bound("joy-voyager-import." . $dataType->slug . ".import-template")) {
-            $exportClass = "joy-voyager-import." . $dataType->slug . ".import-template";
+        if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import-template')) {
+            $exportClass = 'joy-voyager-import.' . $dataType->slug . '.import-template';
         }
 
         $export = app($exportClass);

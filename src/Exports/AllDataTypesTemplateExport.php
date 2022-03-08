@@ -25,11 +25,10 @@ class AllDataTypesTemplateExport implements
         $dataTypes = Voyager::model('DataType')->get();
 
         foreach ($dataTypes as $dataType) {
-
             $exportClass = 'joy-voyager-import.import-template';
 
-            if (app()->bound("joy-voyager-import." . $dataType->slug . ".import-template")) {
-                $exportClass = "joy-voyager-import." . $dataType->slug . ".import-template";
+            if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import-template')) {
+                $exportClass = 'joy-voyager-import.' . $dataType->slug . '.import-template';
             }
 
             $export = app($exportClass);

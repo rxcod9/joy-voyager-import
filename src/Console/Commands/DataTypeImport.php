@@ -3,9 +3,6 @@
 namespace Joy\VoyagerImport\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Joy\VoyagerImport\Imports\DataTypeImport as ImportsDataTypeImport;
 use Maatwebsite\Excel\Excel;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -47,8 +44,8 @@ class DataTypeImport extends Command
 
         $importClass = 'joy-voyager-import.import';
 
-        if (app()->bound("joy-voyager-import." . $dataType->slug . ".import")) {
-            $importClass = "joy-voyager-import." . $dataType->slug . ".import";
+        if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import')) {
+            $importClass = 'joy-voyager-import.' . $dataType->slug . '.import';
         }
 
         $import = app($importClass);

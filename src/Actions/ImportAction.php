@@ -2,11 +2,9 @@
 
 namespace Joy\VoyagerImport\Actions;
 
-use Joy\VoyagerImport\Imports\DataTypeImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use TCG\Voyager\Actions\AbstractAction;
 use TCG\Voyager\Facades\Voyager;
 use Maatwebsite\Excel\Excel;
@@ -90,14 +88,14 @@ class ImportAction extends AbstractAction
             'file' => 'required|mimes:' . $mimes,
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect($comingFrom)->with([
                 'message'    => $validator->errors()->first(),
                 'alert-type' => 'error',
             ]);
         }
 
-        $disk = $this->disk ?? config('joy-voyager-import.disk');
+        $disk       = $this->disk ?? config('joy-voyager-import.disk');
         $readerType = $this->readerType ?? config('joy-voyager-import.readerType', Excel::XLSX);
 
         $importClass = 'joy-voyager-import.import';
@@ -127,8 +125,8 @@ class ImportAction extends AbstractAction
     {
         $view = 'joy-voyager-import::bread.import';
 
-        if (view()->exists("joy-voyager-import::" . $this->dataType->slug . ".import")) {
-            $view = "joy-voyager-import::" . $this->dataType->slug . ".import";
+        if (view()->exists('joy-voyager-import::' . $this->dataType->slug . '.import')) {
+            $view = 'joy-voyager-import::' . $this->dataType->slug . '.import';
         }
         return $view;
     }

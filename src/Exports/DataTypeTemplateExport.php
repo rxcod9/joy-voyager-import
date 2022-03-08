@@ -150,7 +150,7 @@ class DataTypeTemplateExport implements
         // If a column has a relationship associated with it, we do not want to show that field
         // $this->removeRelationshipField($this->dataType, 'browse');
 
-        $headings   = [];
+        $headings = [];
         // $headings[] = 'id'; // index column
         foreach ($this->dataType->rows as $row) {
             $headings[$row->field] = $row->field;
@@ -166,7 +166,7 @@ class DataTypeTemplateExport implements
         // If a column has a relationship associated with it, we do not want to show that field
         // $this->removeRelationshipField($this->dataType, 'browse');
 
-        $columns   = [];
+        $columns = [];
         // $columns[] = $data->id;
         foreach ($this->dataType->rows as $row) {
             $column = null;
@@ -192,7 +192,7 @@ class DataTypeTemplateExport implements
                 //     $column = Voyager::image($data->{$row->field});
                 // } else {
                 $column = $data->{$row->field};
-                // }
+            // }
             } elseif ($row->type == 'relationship') {
                 $column = trim(strip_tags((string) view('voyager::formfields.relationship', [
                     'view'            => 'browse',

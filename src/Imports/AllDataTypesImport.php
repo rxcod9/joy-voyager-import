@@ -4,12 +4,9 @@ namespace Joy\VoyagerImport\Imports;
 
 // use App\Models\User;
 
-use Illuminate\Console\OutputStyle;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\NullOutput;
 use TCG\Voyager\Facades\Voyager;
 
 class AllDataTypesImport implements
@@ -27,11 +24,10 @@ class AllDataTypesImport implements
         $dataTypes = Voyager::model('DataType')->get();
 
         foreach ($dataTypes as $dataType) {
-
             $importClass = 'joy-voyager-import.import';
 
-            if (app()->bound("joy-voyager-import." . $dataType->slug . ".import")) {
-                $importClass = "joy-voyager-import." . $dataType->slug . ".import";
+            if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import')) {
+                $importClass = 'joy-voyager-import.' . $dataType->slug . '.import';
             }
 
             $import = app($importClass);

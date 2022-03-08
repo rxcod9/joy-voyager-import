@@ -95,7 +95,7 @@ class VoyagerImportServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/joy-voyager-import'),
+            __DIR__ . '/../resources/views'                => resource_path('views/vendor/joy-voyager-import'),
             __DIR__ . '/../resources/views/bread/partials' => resource_path('views/vendor/voyager/bread/partials'),
         ], 'views');
 

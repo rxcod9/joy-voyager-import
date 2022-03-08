@@ -2,21 +2,10 @@
 
 namespace Joy\VoyagerImport\Http\Traits;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Models\DataType;
-
-use Joy\VoyagerImport\Imports\DataTypeImport;
-
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Joy\VoyagerImport\Exports\DataTypeTemplateExport;
-use TCG\Voyager\Actions\AbstractAction;
 use Maatwebsite\Excel\Excel;
 
 trait ImportTemplateAction
@@ -49,8 +38,8 @@ trait ImportTemplateAction
 
         $exportClass = 'joy-voyager-import.import-template';
 
-        if (app()->bound("joy-voyager-import." . $dataType->slug . ".import-template")) {
-            $exportClass = "joy-voyager-import." . $dataType->slug . ".import-template";
+        if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import-template')) {
+            $exportClass = 'joy-voyager-import.' . $dataType->slug . '.import-template';
         }
 
         $export = app($exportClass);

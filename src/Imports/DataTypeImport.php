@@ -4,29 +4,17 @@ namespace Joy\VoyagerImport\Imports;
 
 // use App\Models\User;
 
-use Illuminate\Console\OutputStyle;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 use TCG\Voyager\Models\DataType;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
-use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\NullOutput;
 use TCG\Voyager\Facades\Voyager;
 
 class DataTypeImport implements
@@ -61,8 +49,8 @@ class DataTypeImport implements
         DataType $dataType,
         $input = []
     ) {
-        $this->dataType        = $dataType;
-        $this->input           = $input;
+        $this->dataType = $dataType;
+        $this->input    = $input;
         return $this;
     }
 
@@ -91,17 +79,17 @@ class DataTypeImport implements
             return [];
         }
 
-        $rules = [];
-        $messages = [];
+        $rules            = [];
+        $messages         = [];
         $customAttributes = [];
-        $id = null;
-        $is_update = false; //$name && $id;
+        $id               = null;
+        $is_update        = false; //$name && $id;
 
         $fieldsWithValidationRules = $this->getFieldsWithValidationRules($this->dataType->rows);
 
         foreach ($fieldsWithValidationRules as $field) {
             $fieldRules = $field->details->validation->rule;
-            $fieldName = $field->field;
+            $fieldName  = $field->field;
 
             // Show the field's display name on the error message
             if (!empty($field->display_name)) {
@@ -130,7 +118,7 @@ class DataTypeImport implements
                 // $action_rules = $field->details->validation->edit->rule;
                 // $rules[$fieldName] = array_merge($rules[$fieldName], (is_array($action_rules) ? $action_rules : explode('|', $action_rules)));
             } elseif (!$id && property_exists($field->details->validation, 'add')) {
-                $action_rules = $field->details->validation->add->rule;
+                $action_rules      = $field->details->validation->add->rule;
                 $rules[$fieldName] = array_merge($rules[$fieldName], (is_array($action_rules) ? $action_rules : explode('|', $action_rules)));
             }
             // Fix Unique validation rule on Edit Mode
@@ -163,17 +151,17 @@ class DataTypeImport implements
             return [];
         }
 
-        $rules = [];
-        $messages = [];
+        $rules            = [];
+        $messages         = [];
         $customAttributes = [];
-        $id = null;
-        $is_update = false; //$name && $id;
+        $id               = null;
+        $is_update        = false; //$name && $id;
 
         $fieldsWithValidationRules = $this->getFieldsWithValidationRules($this->dataType->rows);
 
         foreach ($fieldsWithValidationRules as $field) {
             $fieldRules = $field->details->validation->rule;
-            $fieldName = $field->field;
+            $fieldName  = $field->field;
 
             // Show the field's display name on the error message
             if (!empty($field->display_name)) {
@@ -202,7 +190,7 @@ class DataTypeImport implements
                 // $action_rules = $field->details->validation->edit->rule;
                 // $rules[$fieldName] = array_merge($rules[$fieldName], (is_array($action_rules) ? $action_rules : explode('|', $action_rules)));
             } elseif (!$id && property_exists($field->details->validation, 'add')) {
-                $action_rules = $field->details->validation->add->rule;
+                $action_rules      = $field->details->validation->add->rule;
                 $rules[$fieldName] = array_merge($rules[$fieldName], (is_array($action_rules) ? $action_rules : explode('|', $action_rules)));
             }
             // Fix Unique validation rule on Edit Mode
@@ -256,7 +244,7 @@ class DataTypeImport implements
         }
 
         $model = app($this->dataType->model_name);
-        $data = new $model();
+        $data  = new $model();
 
         // If a column has a relationship associated with it, we do not want to show that field
         // $this->removeRelationshipField($this->dataType, 'browse');
@@ -264,7 +252,6 @@ class DataTypeImport implements
         $data->id = $item['id'];
 
         foreach ($this->dataType->rows as $row) {
-
             if ($data->hasSetMutator($row->field . '_import')) {
                 $data->{$row->field . '_import'} = (($item[$row->field] ?? null) ?? null);
             }
@@ -337,7 +324,7 @@ class DataTypeImport implements
             } elseif ($row->type == 'password') {
                 // view('voyager::multilingual.input-hidden-bread-browse');
                 // $data->{$row->field} = mb_strlen( ($item[$row->field] ?? null) ) > 200 ? mb_substr(($item[$row->field] ?? null), 0, 200) . ' ...' : ($item[$row->field] ?? null);
-                // @TODO check if not hash then use bcrypt 
+                // @TODO check if not hash then use bcrypt
                 $data->{$row->field} = (($item[$row->field] ?? null) ?? null);
             } elseif ($row->type == 'text_area') {
                 // view('voyager::multilingual.input-hidden-bread-browse');
