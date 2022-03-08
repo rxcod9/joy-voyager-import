@@ -42,7 +42,7 @@
 </div><!-- /.modal -->
 
 <script>
-window.onload = function () {
+$(window).load(function() {
     // Bulk import selectors
     var $bulkImportBtn = $('#bulk_import_btn');
     var $bulkImportModal = $('#bulk_import_modal');
@@ -78,5 +78,5 @@ window.onload = function () {
         //     toastr.warning('{{ __('joy-voyager-import::generic.bulk_import_nothing') }}');
         // }
     });
-}
+});
 </script>

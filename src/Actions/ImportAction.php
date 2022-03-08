@@ -49,7 +49,8 @@ class ImportAction extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-primary',
+            'id' => 'bulk_import_btn',
+            'class' => 'btn btn-primary',
         ];
     }
 
