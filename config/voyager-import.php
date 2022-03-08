@@ -62,27 +62,26 @@ return [
     | The default import readerType.
     | 
     | Supported: "Xlsx", "Csv", "Csv", "Ods", "Xls",
-    |   "Slk", "Xml", "Gnumeric", "Html", "Mpdf", "Dompdf", "Tcpdf"
+    |   "Slk", "Xml", "Gnumeric", "Html"
     */
-    'readerType' => env('VOYAGER_IMPORT_READER_TYPE', 'Xlsx'),
+    'readerType' => env('VOYAGER_IMPORT_READER_TYPE', 'Csv'),
 
     /*
     | The default import writerType.
     | 
     | Supported: "Xlsx", "Csv", "Csv", "Ods", "Xls",
-    |   "Slk", "Xml", "Gnumeric", "Html", "Mpdf", "Dompdf", "Tcpdf"
+    |   "Slk", "Xml", "Gnumeric", "Html"
     */
-    'writerType' => env('VOYAGER_IMPORT_WRITER_TYPE', 'Xlsx'),
+    'writerType' => env('VOYAGER_IMPORT_WRITER_TYPE', 'Csv'),
 
     /*
     | Here you can specify which mimes are allowed to upload
     | 
-    | Supported: "xlsx", "csv", "csv", "ods", "xls",
-    |   "slk", "xml", "gnumeric", "html", "mpdf", "dompdf", "tcpdf"
+    | Supported: "xlsx","csv","tsv","ods","xls","slk","xml","gnumeric","html"
     |
     */
 
-    'allowed_mimes' => env('VOYAGER_IMPORT_ALLOWED_MIMES', 'xlsx,csv,csv,ods,xls,slk,xml,gnumeric,html,mpdf,dompdf,tcpdf'),
+    'allowed_mimes' => env('VOYAGER_IMPORT_ALLOWED_MIMES', 'xlsx,txt,csv,tsv,ods,xls,slk,xml,gnumeric,html'),
 
     /*
     |--------------------------------------------------------------------------

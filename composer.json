@@ -22,14 +22,12 @@
         "php": "^7.3|^8.0",
         "illuminate/support": "^7|^8",
         "joy/voyager-core": "^1.0",
-        "larapack/hooks": "^1.0.5",
         "maatwebsite/excel": "^3.1",
         "tcg/voyager": "^1.4"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
         "ext-zip": "*",
-        "doctrine/dbal": "^2.5.2",
         "friendsofphp/php-cs-fixer": "^3.0",
         "guzzlehttp/guzzle": "^6.3|^7.0",
         "mockery/mockery": "^1.3",
