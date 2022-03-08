@@ -64,7 +64,7 @@ return [
     | Supported: "Xlsx", "Csv", "Csv", "Ods", "Xls",
     |   "Slk", "Xml", "Gnumeric", "Html"
     */
-    'readerType' => env('VOYAGER_IMPORT_READER_TYPE', 'Csv'),
+    'readerType' => env('VOYAGER_IMPORT_READER_TYPE', 'Xlsx'),
 
     /*
     | The default import writerType.
@@ -72,7 +72,7 @@ return [
     | Supported: "Xlsx", "Csv", "Csv", "Ods", "Xls",
     |   "Slk", "Xml", "Gnumeric", "Html"
     */
-    'writerType' => env('VOYAGER_IMPORT_WRITER_TYPE', 'Csv'),
+    'writerType' => env('VOYAGER_IMPORT_WRITER_TYPE', 'Xlsx'),
 
     /*
     | Here you can specify which mimes are allowed to upload
