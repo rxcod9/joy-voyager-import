@@ -76,15 +76,15 @@ class DataTypeImport implements
     {
         $model = app($this->dataType->model_name);
 
-        $defaultUniqueColumn = config(
-            'joy-voyager-import.unique_column',
-            $model->getKeyName()
+        $dataTypeUniqueColumn = config(
+            'joy-voyager-import.unique_column.' . $this->dataType->slug
         );
 
-        return config(
-            'joy-voyager-import.unique_column.' . $this->dataType->slug,
-            $defaultUniqueColumn
-        );
+        if ($dataTypeUniqueColumn) {
+            return $dataTypeUniqueColumn;
+        }
+
+        return $model->getKeyName();
     }
 
     public function rules(): array

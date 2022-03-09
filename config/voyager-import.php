@@ -95,7 +95,6 @@ return [
     */
 
     'unique_column' => [
-        'default' => null,
         // 'users' => 'email',
         // 'YOUR_DATATYPE_SLUG' => 'MODEL_UNIQUE_KEY',
     ],
