@@ -91,7 +91,7 @@ class DataTypeImport implements
     {
         $isValidationEnabled = config('joy-voyager-import.validation', false) === true;
         if (!$isValidationEnabled) {
-            return [];
+            // return [];
         }
 
         $rules            = [];
@@ -163,7 +163,7 @@ class DataTypeImport implements
     {
         $isValidationEnabled = config('joy-voyager-import.validation', false) === true;
         if (!$isValidationEnabled) {
-            return [];
+            // return [];
         }
 
         $rules            = [];

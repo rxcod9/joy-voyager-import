@@ -27,17 +27,21 @@ Route::group(['prefix' => config('joy-voyager-import.admin_prefix', 'admin')], f
         Route::group(['middleware' => 'admin.user'], function () use ($namespacePrefix) {
             // event(new RoutingAdmin()); @deprecated
 
+            $breadController = $namespacePrefix.'VoyagerBaseController';
+
             try {
                 foreach (Voyager::model('DataType')::all() as $dataType) {
-                    $breadController = $namespacePrefix.'VoyagerBaseController';
-
                     Route::get($dataType->slug . '/import-template', $breadController.'@importTemplate')->name($dataType->slug.'.import-template');
+                    Route::post($dataType->slug . '/import', $breadController.'@import')->name($dataType->slug.'.import');
                 }
             } catch (\InvalidArgumentException $e) {
                 throw new \InvalidArgumentException("Custom routes hasn't been configured because: ".$e->getMessage(), 1);
             } catch (\Exception $e) {
                 // do nothing, might just be because table not yet migrated.
             }
+
+            Route::get('import-template-all', $breadController.'@importTemplateAll')->name('import-template-all');
+            Route::post('import', $breadController.'@importAll')->name('import-all');
 
             // event(new RoutingAdminAfter()); @deprecated
         });

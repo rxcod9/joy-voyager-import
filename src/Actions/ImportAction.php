@@ -33,7 +33,7 @@ class ImportAction extends AbstractAction
 
     public function getTitle()
     {
-        return 'Import';
+        return __('joy-voyager-import::generic.bulk_import');
     }
 
     public function getIcon()
