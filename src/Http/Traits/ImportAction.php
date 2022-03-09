@@ -5,7 +5,6 @@ namespace Joy\VoyagerImport\Http\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use TCG\Voyager\Facades\Voyager;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 
 trait ImportAction

@@ -4,7 +4,6 @@ namespace Joy\VoyagerImport\Http\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 
 trait ImportAllAction
@@ -39,7 +38,7 @@ trait ImportAllAction
             ]);
         }
 
-        $disk = $request->get('disk', config('joy-voyager-import.disk'));
+        $disk       = $request->get('disk', config('joy-voyager-import.disk'));
         $readerType = $request->get('readerType', config('joy-voyager-import.readerType', Excel::XLSX));
 
         $importClass = 'joy-voyager-import.import-all';
