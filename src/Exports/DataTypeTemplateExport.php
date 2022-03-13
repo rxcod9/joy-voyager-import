@@ -5,7 +5,7 @@ namespace Joy\VoyagerImport\Exports;
 // use App\Models\User;
 
 use Illuminate\Console\OutputStyle;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +26,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use TCG\Voyager\Facades\Voyager;
 
 class DataTypeTemplateExport implements
-    FromQuery,
+    FromCollection,
     WithMapping,
     WithHeadings,
     WithTitle,
@@ -93,7 +93,7 @@ class DataTypeTemplateExport implements
         ];
     }
 
-    public function query()
+    public function collection()
     {
         $orderBy = Arr::get(
             $this->input,
@@ -159,7 +159,7 @@ class DataTypeTemplateExport implements
             $query->whereKey($this->ids);
         }
 
-        return $query;
+        return $query->limit(2)->get();
     }
 
     public function headings(): array
