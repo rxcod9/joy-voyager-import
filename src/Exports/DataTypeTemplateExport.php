@@ -185,6 +185,7 @@ class DataTypeTemplateExport implements
 
         $columns = [];
         // $columns[] = $data->id;
+
         foreach ($this->dataType->rows as $row) {
             $column = null;
             if ($data->{$row->field . '_export'}) {

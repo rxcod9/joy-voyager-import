@@ -17,15 +17,61 @@
                 <input type="file" name="file">
             </div>
             <div class="modal-footer">
-                <a
-                    class="btn btn-info pull-left"
-                    id="bulk_import_template_btn"
-                    href="{{ route('voyager.'.$dataType->slug.'.import-template') }}"
-                    title="{{ __('joy-voyager-import::generic.bulk_import_template') }}"
-                    target="_blank"
-                >
-                    <i class="voyager-download"></i> <span>{{ __('joy-voyager-import::generic.bulk_import_template') }}</span>
-                </a>
+                <div class="btn-group pull-left" role="group">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="voyager-download"></i> <span>{{ __('joy-voyager-import::generic.bulk_import_template') }}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a
+                                    class='export-template-by-writer'
+                                    data-writer-type="Xls"
+                                    href="{{ route('voyager.'.$dataType->slug.'.import-template') }}?writerType=Xls"
+                                    title="{{ __('joy-voyager-import::generic.bulk_import_template') }}"
+                                    target="_blank"
+                                >Xls</a>
+                            </li>
+                            <li>
+                                <a
+                                    class='export-template-by-writer'
+                                    data-writer-type="Xlsx"
+                                    href="{{ route('voyager.'.$dataType->slug.'.import-template') }}?writerType=Xlsx"
+                                    title="{{ __('joy-voyager-import::generic.bulk_import_template') }}"
+                                    target="_blank"
+                                >Xlsx</a>
+                            </li>
+                            <li>
+                                <a
+                                    class='export-template-by-writer'
+                                    data-writer-type="Ods"
+                                    href="{{ route('voyager.'.$dataType->slug.'.import-template') }}?writerType=Ods"
+                                    title="{{ __('joy-voyager-import::generic.bulk_import_template') }}"
+                                    target="_blank"
+                                >Ods</a>
+                            </li>
+                            <li>
+                                <a
+                                    class='export-template-by-writer'
+                                    data-writer-type="Csv"
+                                    href="{{ route('voyager.'.$dataType->slug.'.import-template') }}?writerType=Csv"
+                                    title="{{ __('joy-voyager-import::generic.bulk_import_template') }}"
+                                    target="_blank"
+                                >Csv</a>
+                            </li>
+                            <li>
+                                <a
+                                    class='export-template-by-writer'
+                                    data-writer-type="Html"
+                                    href="{{ route('voyager.'.$dataType->slug.'.import-template') }}?writerType=Html"
+                                    title="{{ __('joy-voyager-import::generic.bulk_import_template') }}"
+                                    target="_blank"
+                                >Html</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <!-- <button type="submit" {!! $action->convertAttributesToHtml() !!}><i class="{{ $action->getIcon() }}"></i> {{ $action->getTitle() }}</button> -->
                 <input type="hidden" name="action" value="{{ get_class($action) }}">
                 <!-- <input type="hidden" name="ids" value="" class="selected_ids"> -->

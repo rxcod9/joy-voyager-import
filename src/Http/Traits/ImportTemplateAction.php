@@ -32,7 +32,7 @@ trait ImportTemplateAction
         // Check permission
         $this->authorize('browse', app($dataType->model_name));
 
-        $writerType = $this->writerType ?? config('joy-voyager-import.writerType', Excel::XLSX);
+        $writerType = $request->get('writerType', $this->writerType ?? config('joy-voyager-import.writerType', Excel::XLSX));
         $fileName   = $this->fileName ?? ($dataType->slug . '.' . Str::lower($writerType));
 
         $exportClass = 'joy-voyager-import.import-template';
@@ -42,9 +42,10 @@ trait ImportTemplateAction
         }
 
         $export = app($exportClass);
-
+        
         return $export->set(
             $dataType,
+            [],
             $request->all(),
         )->download(
             $fileName,

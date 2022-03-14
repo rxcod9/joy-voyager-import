@@ -4,12 +4,11 @@ namespace Joy\VoyagerImport\Imports;
 
 // use App\Models\User;
 
-use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
-use TCG\Voyager\Models\DataType;
-use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
 use Joy\VoyagerImport\Events\BreadDataImported;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -17,6 +16,8 @@ use Maatwebsite\Excel\Concerns\WithProgressBar;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Events\AfterImport;
+use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
+use TCG\Voyager\Models\DataType;
 
 class DataTypeImport implements
     ToModel,
@@ -264,7 +265,7 @@ class DataTypeImport implements
         // If a column has a relationship associated with it, we do not want to show that field
         // $this->removeRelationshipField($this->dataType, 'browse');
 
-        $data->id = $item['id'];
+        $data->id = $item['id'] ?? $item[''] ?? null;
 
         foreach ($this->dataType->rows as $row) {
             if ($data->hasSetMutator($row->field . '_import')) {
@@ -342,7 +343,13 @@ class DataTypeImport implements
                 // @TODO check if not hash then use bcrypt
                 // Ignore if password is not set
                 if (($item[$row->field] ?? null)) {
-                    $data->{$row->field} = ($item[$row->field] ?? null);
+                    $password = $item[$row->field] ?? null;
+                    $passwordInfo = password_get_info($password);
+                    if ($passwordInfo['algo']) {
+                        $data->{$row->field} = ($item[$row->field] ?? null);
+                    } else {
+                        $data->{$row->field} = Hash::make($item[$row->field] ?? null);
+                    }
                 }
             } elseif ($row->type == 'text_area') {
                 // view('voyager::multilingual.input-hidden-bread-browse');

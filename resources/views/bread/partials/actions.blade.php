@@ -6,13 +6,17 @@
     @endphp
     @can ($action->getPolicy(), $data)
         @if ($action->shouldActionDisplayOnRow($data))
-            <a href="{{ $action->getRoute($dataType->name) }}" title="{{ $action->getTitle() }}" {!! $action->convertAttributesToHtml() !!}>
-                <i class="{{ $action->getIcon() }}"></i> <span class="hidden-xs hidden-sm">{{ $action->getTitle() }}</span>
-            </a>
+            @if (method_exists($action, 'view'))
+                @include($action->view(), ['action' => $action, 'data' => $data, 'dataType' => $dataType])
+            @else
+                <a href="{{ $action->getRoute($dataType->name) }}" title="{{ $action->getTitle() }}" {!! $action->convertAttributesToHtml() !!}>
+                    <i class="{{ $action->getIcon() }}"></i> <span class="hidden-xs hidden-sm">{{ $action->getTitle() }}</span>
+                </a>
+            @endif
         @endif
     @endcan
-@elseif (method_exists($action, 'massAction') && method_exists($action, 'massView'))
-    @include($action->massView(), ['action' => $action, 'data' => null])
+@elseif (method_exists($action, 'massAction') && method_exists($action, 'view'))
+    @include($action->view(), ['action' => $action, 'data' => null, 'dataType' => $dataType])
 @elseif (method_exists($action, 'massAction'))
     <form method="post" action="{{ route('voyager.'.$dataType->slug.'.action') }}" style="display:inline">
         {{ csrf_field() }}

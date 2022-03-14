@@ -61,7 +61,7 @@ return [
     /*
     | The default import readerType.
     | 
-    | Supported: "Xlsx", "Csv", "Csv", "Ods", "Xls",
+    | Supported: "Xlsx", "Csv", "Ods", "Xls",
     |   "Slk", "Xml", "Gnumeric", "Html"
     */
     'readerType' => env('VOYAGER_IMPORT_READER_TYPE', 'Xlsx'),

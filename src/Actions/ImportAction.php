@@ -97,7 +97,8 @@ class ImportAction extends AbstractAction
         }
 
         $disk       = $this->disk ?? config('joy-voyager-import.disk');
-        $readerType = $this->readerType ?? config('joy-voyager-import.readerType', Excel::XLSX);
+        // @FIXME let me auto detect OR NOT??
+        $readerType = null; //$this->readerType ?? config('joy-voyager-import.readerType', Excel::XLSX);
 
         $importClass = 'joy-voyager-import.import';
 
@@ -122,7 +123,7 @@ class ImportAction extends AbstractAction
         ]);
     }
 
-    public function massView()
+    public function view()
     {
         $view = 'joy-voyager-import::bread.import';
 
