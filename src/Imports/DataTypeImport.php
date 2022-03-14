@@ -343,7 +343,7 @@ class DataTypeImport implements
                 // @TODO check if not hash then use bcrypt
                 // Ignore if password is not set
                 if (($item[$row->field] ?? null)) {
-                    $password = $item[$row->field] ?? null;
+                    $password     = $item[$row->field] ?? null;
                     $passwordInfo = password_get_info($password);
                     if ($passwordInfo['algo']) {
                         $data->{$row->field} = ($item[$row->field] ?? null);

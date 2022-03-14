@@ -96,7 +96,7 @@ class ImportAction extends AbstractAction
             ]);
         }
 
-        $disk       = $this->disk ?? config('joy-voyager-import.disk');
+        $disk = $this->disk ?? config('joy-voyager-import.disk');
         // @FIXME let me auto detect OR NOT??
         $readerType = null; //$this->readerType ?? config('joy-voyager-import.readerType', Excel::XLSX);
 

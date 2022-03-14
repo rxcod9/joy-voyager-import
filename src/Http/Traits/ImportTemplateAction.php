@@ -42,7 +42,7 @@ trait ImportTemplateAction
         }
 
         $export = app($exportClass);
-        
+
         return $export->set(
             $dataType,
             [],
