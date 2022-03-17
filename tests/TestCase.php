@@ -1,9 +1,9 @@
 <?php
 
-namespace Joy\VoyagerBulkUpdate\Tests;
+namespace Joy\VoyagerImport\Tests;
 
 use Dotenv\Dotenv;
-use Joy\VoyagerBulkUpdate\VoyagerBulkUpdateServiceProvider;
+use Joy\VoyagerImport\VoyagerBulkUpdateServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -36,7 +36,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         $serviceProviders = [
-            VoyagerBulkUpdateServiceProvider::class,
+            VoyagerImportServiceProvider::class,
         ];
 
         return $serviceProviders;

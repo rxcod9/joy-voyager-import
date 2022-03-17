@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerBulkUpdate\Http\Traits;
+namespace Joy\VoyagerImport\Http\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,10 +28,10 @@ trait ImportAllTemplateAction
         // Check permission
         $this->authorize('browse_bread');
 
-        $writerType = $this->writerType ?? config('joy-voyager-bulk-update.writerType', Excel::XLSX);
+        $writerType = $this->writerType ?? config('joy-voyager-import.writerType', Excel::XLSX);
         $fileName   = $this->fileName ?? ('import-all' . '.' . Str::lower($writerType));
 
-        $exportClass = 'joy-voyager-bulk-update.import-all-template';
+        $exportClass = 'joy-voyager-import.import-all-template';
 
         $export = app($exportClass);
 

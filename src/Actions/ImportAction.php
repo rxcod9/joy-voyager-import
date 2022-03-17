@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerBulkUpdate\Actions;
+namespace Joy\VoyagerImport\Actions;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -33,7 +33,7 @@ class ImportAction extends AbstractAction
 
     public function getTitle()
     {
-        return __('joy-voyager-bulk-update::generic.bulk_import');
+        return __('joy-voyager-import::generic.bulk_import');
     }
 
     public function getIcon()
@@ -61,14 +61,14 @@ class ImportAction extends AbstractAction
 
     public function shouldActionDisplayOnDataType()
     {
-        return config('joy-voyager-bulk-update.enabled', true) !== false
+        return config('joy-voyager-import.enabled', true) !== false
             && isInPatterns(
                 $this->dataType->slug,
-                config('joy-voyager-bulk-update.allowed_slugs', ['*'])
+                config('joy-voyager-import.allowed_slugs', ['*'])
             )
             && !isInPatterns(
                 $this->dataType->slug,
-                config('joy-voyager-bulk-update.not_allowed_slugs', [])
+                config('joy-voyager-import.not_allowed_slugs', [])
             );
     }
 
@@ -83,7 +83,7 @@ class ImportAction extends AbstractAction
         // Check permission
         Gate::authorize('browse', app($dataType->model_name));
 
-        $mimes = $this->mimes ?? config('joy-voyager-bulk-update.allowed_mimes');
+        $mimes = $this->mimes ?? config('joy-voyager-import.allowed_mimes');
 
         $validator = Validator::make(request()->all(), [
             'file' => 'required|mimes:' . $mimes,
@@ -96,14 +96,14 @@ class ImportAction extends AbstractAction
             ]);
         }
 
-        $disk = $this->disk ?? config('joy-voyager-bulk-update.disk');
+        $disk = $this->disk ?? config('joy-voyager-import.disk');
         // @FIXME let me auto detect OR NOT??
-        $readerType = null; //$this->readerType ?? config('joy-voyager-bulk-update.readerType', Excel::XLSX);
+        $readerType = null; //$this->readerType ?? config('joy-voyager-import.readerType', Excel::XLSX);
 
-        $importClass = 'joy-voyager-bulk-update.import';
+        $importClass = 'joy-voyager-import.import';
 
-        if (app()->bound("joy-voyager-bulk-update.$slug.import")) {
-            $importClass = "joy-voyager-bulk-update.$slug.import";
+        if (app()->bound("joy-voyager-import.$slug.import")) {
+            $importClass = "joy-voyager-import.$slug.import";
         }
 
         $import = app($importClass);
@@ -118,17 +118,17 @@ class ImportAction extends AbstractAction
         );
 
         return redirect($comingFrom)->with([
-            'message'    => __('joy-voyager-bulk-update::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+            'message'    => __('joy-voyager-import::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
             'alert-type' => 'success',
         ]);
     }
 
     public function view()
     {
-        $view = 'joy-voyager-bulk-update::bread.import';
+        $view = 'joy-voyager-import::bread.import';
 
-        if (view()->exists('joy-voyager-bulk-update::' . $this->dataType->slug . '.import')) {
-            $view = 'joy-voyager-bulk-update::' . $this->dataType->slug . '.import';
+        if (view()->exists('joy-voyager-import::' . $this->dataType->slug . '.import')) {
+            $view = 'joy-voyager-import::' . $this->dataType->slug . '.import';
         }
         return $view;
     }

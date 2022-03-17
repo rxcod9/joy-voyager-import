@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerBulkUpdate\Console\Commands;
+namespace Joy\VoyagerImport\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +38,7 @@ class AllDataTypesTemplateExport extends Command
             $url
         ));
 
-        $importClass = 'joy-voyager-bulk-update.import-all-template';
+        $importClass = 'joy-voyager-import.import-all-template';
 
         $import = app($importClass);
 

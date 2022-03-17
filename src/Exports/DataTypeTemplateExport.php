@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerBulkUpdate\Exports;
+namespace Joy\VoyagerImport\Exports;
 
 // use App\Models\User;
 
@@ -15,7 +15,7 @@ use TCG\Voyager\Models\DataType;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Joy\VoyagerBulkUpdate\Events\BreadDataTemplateExported;
+use Joy\VoyagerImport\Events\BreadDataTemplateExported;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;

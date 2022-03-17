@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerBulkUpdate\Console\Commands;
+namespace Joy\VoyagerImport\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -47,10 +47,10 @@ class DataTypeTemplateExport extends Command
             $url
         ));
 
-        $exportClass = 'joy-voyager-bulk-update.import-template';
+        $exportClass = 'joy-voyager-import.import-template';
 
-        if (app()->bound('joy-voyager-bulk-update.' . $dataType->slug . '.import-template')) {
-            $exportClass = 'joy-voyager-bulk-update.' . $dataType->slug . '.import-template';
+        if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import-template')) {
+            $exportClass = 'joy-voyager-import.' . $dataType->slug . '.import-template';
         }
 
         $export = app($exportClass);
@@ -93,14 +93,14 @@ class DataTypeTemplateExport extends Command
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'The disk to where you want to export',
-                config('joy-voyager-bulk-update.disk')
+                config('joy-voyager-import.disk')
             ],
             [
                 'writerType',
                 'w',
                 InputOption::VALUE_OPTIONAL,
                 'The writerType in which format you want to export',
-                config('joy-voyager-bulk-update.writerType', 'Xlsx')
+                config('joy-voyager-import.writerType', 'Xlsx')
             ],
         ];
     }

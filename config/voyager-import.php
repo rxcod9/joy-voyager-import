@@ -3,14 +3,14 @@
 return [
 
     /*
-     * If enabled for voyager-bulk-update package.
+     * If enabled for voyager-import package.
      */
-    'enabled' => env('VOYAGER_BULK_UPDATE_ENABLED', true),
+    'enabled' => env('VOYAGER_IMPORT_ENABLED', true),
 
     /*
-     * If validation enabled for voyager-bulk-update package.
+     * If validation enabled for voyager-import package.
      */
-    'validation' => env('VOYAGER_BULK_UPDATE_VALIDATION_ENABLED', false),
+    'validation' => env('VOYAGER_IMPORT_VALIDATION_ENABLED', false),
 
     /*
     | Here you can specify for which data type slugs import is enabled
@@ -19,7 +19,7 @@ return [
     |
     */
 
-    'allowed_slugs' => array_filter(explode(',', env('VOYAGER_BULK_UPDATE_ALLOWED_SLUGS', '*'))),
+    'allowed_slugs' => array_filter(explode(',', env('VOYAGER_IMPORT_ALLOWED_SLUGS', '*'))),
 
     /*
     | Here you can specify for which data type slugs import is not allowed
@@ -28,17 +28,17 @@ return [
     |
     */
 
-    'not_allowed_slugs' => array_filter(explode(',', env('VOYAGER_BULK_UPDATE_NOT_ALLOWED_SLUGS', ''))),
+    'not_allowed_slugs' => array_filter(explode(',', env('VOYAGER_IMPORT_NOT_ALLOWED_SLUGS', ''))),
 
     /*
-     * The config_key for voyager-bulk-update package.
+     * The config_key for voyager-import package.
      */
-    'config_key' => env('VOYAGER_BULK_UPDATE_CONFIG_KEY', 'joy-voyager-bulk-update'),
+    'config_key' => env('VOYAGER_IMPORT_CONFIG_KEY', 'joy-voyager-import'),
 
     /*
-     * The route_prefix for voyager-bulk-update package.
+     * The route_prefix for voyager-import package.
      */
-    'route_prefix' => env('VOYAGER_BULK_UPDATE_ROUTE_PREFIX', 'joy-voyager-bulk-update'),
+    'route_prefix' => env('VOYAGER_IMPORT_ROUTE_PREFIX', 'joy-voyager-import'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,13 +50,13 @@ return [
     */
 
     'controllers' => [
-        'namespace' => 'Joy\\VoyagerBulkUpdate\\Http\\Controllers',
+        'namespace' => 'Joy\\VoyagerImport\\Http\\Controllers',
     ],
 
     /*
     | The default import disk.
     */
-    'disk' => env('VOYAGER_BULK_UPDATE_DISK', null),
+    'disk' => env('VOYAGER_IMPORT_DISK', null),
 
     /*
     | The default import readerType.
@@ -64,7 +64,7 @@ return [
     | Supported: "Xlsx", "Csv", "Ods", "Xls",
     |   "Slk", "Xml", "Gnumeric", "Html"
     */
-    'readerType' => env('VOYAGER_BULK_UPDATE_READER_TYPE', 'Xlsx'),
+    'readerType' => env('VOYAGER_IMPORT_READER_TYPE', 'Xlsx'),
 
     /*
     | The default import writerType.
@@ -72,7 +72,7 @@ return [
     | Supported: "Xlsx", "Csv", "Csv", "Ods", "Xls",
     |   "Slk", "Xml", "Gnumeric", "Html"
     */
-    'writerType' => env('VOYAGER_BULK_UPDATE_WRITER_TYPE', 'Xlsx'),
+    'writerType' => env('VOYAGER_IMPORT_WRITER_TYPE', 'Xlsx'),
 
     /*
     | Here you can specify which mimes are allowed to upload
@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'allowed_mimes' => env('VOYAGER_BULK_UPDATE_ALLOWED_MIMES', 'xlsx,txt,csv,tsv,ods,xls,slk,xml,gnumeric,html'),
+    'allowed_mimes' => env('VOYAGER_IMPORT_ALLOWED_MIMES', 'xlsx,txt,csv,tsv,ods,xls,slk,xml,gnumeric,html'),
 
     /*
     |--------------------------------------------------------------------------
