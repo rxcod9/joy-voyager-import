@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerImport\Http\Traits;
+namespace Joy\VoyagerBulkUpdate\Http\Traits;
 
 use Illuminate\Http\Request;
 use TCG\Voyager\Facades\Voyager;
@@ -32,13 +32,13 @@ trait ImportTemplateAction
         // Check permission
         $this->authorize('browse', app($dataType->model_name));
 
-        $writerType = $request->get('writerType', $this->writerType ?? config('joy-voyager-import.writerType', Excel::XLSX));
+        $writerType = $request->get('writerType', $this->writerType ?? config('joy-voyager-bulk-update.writerType', Excel::XLSX));
         $fileName   = $this->fileName ?? ($dataType->slug . '.' . Str::lower($writerType));
 
-        $exportClass = 'joy-voyager-import.import-template';
+        $exportClass = 'joy-voyager-bulk-update.import-template';
 
-        if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import-template')) {
-            $exportClass = 'joy-voyager-import.' . $dataType->slug . '.import-template';
+        if (app()->bound('joy-voyager-bulk-update.' . $dataType->slug . '.import-template')) {
+            $exportClass = 'joy-voyager-bulk-update.' . $dataType->slug . '.import-template';
         }
 
         $export = app($exportClass);

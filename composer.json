@@ -1,16 +1,16 @@
 {
-    "name": "joy/voyager-import",
-    "description": "This Laravel/Voyager module adds VoyagerImport support to Voyager.",
+    "name": "joy/voyager-bulk-update",
+    "description": "This Laravel/Voyager module adds VoyagerBulkUpdate support to Voyager.",
     "keywords": [
         "joy",
-        "voyager-import",
-        "joy-voyager-import",
-        "voyager-voyager-import",
+        "voyager-bulk-update",
+        "joy-voyager-bulk-update",
+        "voyager-voyager-bulk-update",
         "cms",
         "voyager",
         "laravel"
     ],
-    "homepage": "https://github.com/rxcod9/joy-voyager-import",
+    "homepage": "https://github.com/rxcod9/joy-voyager-bulk-update",
     "license": "MIT",
     "authors": [{
         "name": "Ramakant Gangwar",
@@ -36,7 +36,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Joy\\VoyagerImport\\": "src"
+            "Joy\\VoyagerBulkUpdate\\": "src"
         },
         "files": [
             "src/helper.php"
@@ -48,14 +48,14 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Joy\\VoyagerImport\\Tests\\": "tests"
+            "Joy\\VoyagerBulkUpdate\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Joy\\VoyagerImport\\VoyagerImportServiceProvider",
-                "Joy\\VoyagerImport\\ImportServiceProvider"
+                "Joy\\VoyagerBulkUpdate\\VoyagerBulkUpdateServiceProvider",
+                "Joy\\VoyagerBulkUpdate\\ImportServiceProvider"
             ]
         }
     },

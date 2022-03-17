@@ -1,11 +1,11 @@
 <?php
 
-namespace Joy\VoyagerImport\Exports;
+namespace Joy\VoyagerBulkUpdate\Exports;
 
 // use App\Models\User;
 
 use Illuminate\Console\OutputStyle;
-use Joy\VoyagerImport\Events\AllBreadDataTemplateExported;
+use Joy\VoyagerBulkUpdate\Events\AllBreadDataTemplateExported;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
@@ -59,10 +59,10 @@ class AllDataTypesTemplateExport implements
         $dataTypes = Voyager::model('DataType')->get();
 
         foreach ($dataTypes as $dataType) {
-            $exportClass = 'joy-voyager-import.import-template';
+            $exportClass = 'joy-voyager-bulk-update.import-template';
 
-            if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import-template')) {
-                $exportClass = 'joy-voyager-import.' . $dataType->slug . '.import-template';
+            if (app()->bound('joy-voyager-bulk-update.' . $dataType->slug . '.import-template')) {
+                $exportClass = 'joy-voyager-bulk-update.' . $dataType->slug . '.import-template';
             }
 
             $export = app($exportClass);

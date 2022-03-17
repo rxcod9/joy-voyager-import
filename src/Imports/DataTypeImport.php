@@ -1,13 +1,13 @@
 <?php
 
-namespace Joy\VoyagerImport\Imports;
+namespace Joy\VoyagerBulkUpdate\Imports;
 
 // use App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
-use Joy\VoyagerImport\Events\BreadDataImported;
+use Joy\VoyagerBulkUpdate\Events\BreadDataImported;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -78,7 +78,7 @@ class DataTypeImport implements
         $model = app($this->dataType->model_name);
 
         $dataTypeUniqueColumn = config(
-            'joy-voyager-import.unique_column.' . $this->dataType->slug
+            'joy-voyager-bulk-update.unique_column.' . $this->dataType->slug
         );
 
         if ($dataTypeUniqueColumn) {
@@ -90,7 +90,7 @@ class DataTypeImport implements
 
     public function rules(): array
     {
-        $isValidationEnabled = config('joy-voyager-import.validation', false) === true;
+        $isValidationEnabled = config('joy-voyager-bulk-update.validation', false) === true;
         if (!$isValidationEnabled) {
             // return [];
         }
@@ -162,7 +162,7 @@ class DataTypeImport implements
      */
     public function customValidationMessages()
     {
-        $isValidationEnabled = config('joy-voyager-import.validation', false) === true;
+        $isValidationEnabled = config('joy-voyager-bulk-update.validation', false) === true;
         if (!$isValidationEnabled) {
             // return [];
         }

@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Str;
 
-// if (! function_exists('joyVoyagerImport')) {
+// if (! function_exists('joyVoyagerBulkUpdate')) {
 //     /**
 //      * Helper
 //      */
-//     function joyVoyagerImport($argument1 = null)
+//     function joyVoyagerBulkUpdate($argument1 = null)
 //     {
 //         //
 //     }

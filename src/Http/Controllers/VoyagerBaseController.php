@@ -1,11 +1,11 @@
 <?php
 
-namespace Joy\VoyagerImport\Http\Controllers;
+namespace Joy\VoyagerBulkUpdate\Http\Controllers;
 
-use Joy\VoyagerImport\Http\Traits\ImportAction;
-use Joy\VoyagerImport\Http\Traits\ImportAllAction;
-use Joy\VoyagerImport\Http\Traits\ImportAllTemplateAction;
-use Joy\VoyagerImport\Http\Traits\ImportTemplateAction;
+use Joy\VoyagerBulkUpdate\Http\Traits\ImportAction;
+use Joy\VoyagerBulkUpdate\Http\Traits\ImportAllAction;
+use Joy\VoyagerBulkUpdate\Http\Traits\ImportAllTemplateAction;
+use Joy\VoyagerBulkUpdate\Http\Traits\ImportTemplateAction;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController as TCGVoyagerBaseController;
 
 class VoyagerBaseController extends TCGVoyagerBaseController

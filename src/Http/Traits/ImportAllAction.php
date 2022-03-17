@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerImport\Http\Traits;
+namespace Joy\VoyagerBulkUpdate\Http\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +25,7 @@ trait ImportAllAction
         // Check permission
         $this->authorize('browse_bread');
 
-        $mimes = $this->mimes ?? config('joy-voyager-import.allowed_mimes');
+        $mimes = $this->mimes ?? config('joy-voyager-bulk-update.allowed_mimes');
 
         $validator = Validator::make(request()->all(), [
             'file' => 'required|mimes:' . $mimes,
@@ -38,10 +38,10 @@ trait ImportAllAction
             ]);
         }
 
-        $disk       = $request->get('disk', config('joy-voyager-import.disk'));
-        $readerType = $request->get('readerType', config('joy-voyager-import.readerType', Excel::XLSX));
+        $disk       = $request->get('disk', config('joy-voyager-bulk-update.disk'));
+        $readerType = $request->get('readerType', config('joy-voyager-bulk-update.readerType', Excel::XLSX));
 
-        $importClass = 'joy-voyager-import.import-all';
+        $importClass = 'joy-voyager-bulk-update.import-all';
 
         $import = app($importClass);
 
@@ -54,7 +54,7 @@ trait ImportAllAction
         );
 
         return redirect()->back()->with([
-            'message'    => __('joy-voyager-import::generic.successfully_imported_all'),
+            'message'    => __('joy-voyager-bulk-update::generic.successfully_imported_all'),
             'alert-type' => 'success',
         ]);
     }

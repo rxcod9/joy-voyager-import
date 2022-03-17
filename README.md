@@ -1,14 +1,14 @@
-# Joy VoyagerImport
+# Joy VoyagerBulkUpdate
 
-This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) module adds VoyagerImport support to Voyager.
+This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) module adds VoyagerBulkUpdate support to Voyager.
 
 By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 
-[![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-import/main/cover.jpg)](https://joy-voyager.herokuapp.com/)
+[![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-bulk-update/main/cover.jpg)](https://joy-voyager.herokuapp.com/)
 
-[![Latest Version](https://img.shields.io/github/v/release/rxcod9/joy-voyager-import?style=flat-square)](https://github.com/rxcod9/joy-voyager-import/releases)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rxcod9/joy-voyager-import/run-tests?label=tests)
-[![Total Downloads](https://img.shields.io/packagist/dt/joy/voyager-import.svg?style=flat-square)](https://packagist.org/packages/joy/voyager-import)
+[![Latest Version](https://img.shields.io/github/v/release/rxcod9/joy-voyager-bulk-update?style=flat-square)](https://github.com/rxcod9/joy-voyager-bulk-update/releases)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rxcod9/joy-voyager-bulk-update/run-tests?label=tests)
+[![Total Downloads](https://img.shields.io/packagist/dt/joy/voyager-bulk-update.svg?style=flat-square)](https://packagist.org/packages/joy/voyager-bulk-update)
 
 ---
 
@@ -24,13 +24,13 @@ By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 
 ```bash
 # 1. Require this Package in your fresh Laravel/Voyager project
-composer require joy/voyager-import
+composer require joy/voyager-bulk-update
 
 # 2. Publish everything
-php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerImportServiceProvider" --force
+php artisan vendor:publish --provider="Joy\VoyagerBulkUpdate\VoyagerBulkUpdateServiceProvider" --force
 
 # 3. OR Publish Voyager overrided actions blade [MANDATORY STEP FOR IMPORT BULK BUTTON TO WORK]
-php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerImportServiceProvider" --tag=voyager-actions-views --force
+php artisan vendor:publish --provider="Joy\VoyagerBulkUpdate\VoyagerBulkUpdateServiceProvider" --tag=voyager-actions-views --force
 ```
 
 ---
@@ -43,7 +43,7 @@ Installation generates.
 
 <!-- ## Views Customization
 
-In order to override views delivered by Voyager DataTable, copy contents from ``vendor/joy/voyager-import/resources/views`` to the ``views/vendor/joy-voyager-import`` directory of your Laravel installation. -->
+In order to override views delivered by Voyager DataTable, copy contents from ``vendor/joy/voyager-bulk-update/resources/views`` to the ``views/vendor/joy-voyager-bulk-update`` directory of your Laravel installation. -->
 
 ## Working Example
 
@@ -51,7 +51,7 @@ You can try laravel demo here [https://joy-voyager.herokuapp.com/admin/users](ht
 
 ## Documentation
 
-Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the joy voyager-import? Feel free to [create an issue on GitHub](https://github.com/rxcod9/joy-voyager-import/issues), we'll try to address it as soon as possible.
+Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the joy voyager-bulk-update? Feel free to [create an issue on GitHub](https://github.com/rxcod9/joy-voyager-bulk-update/issues), we'll try to address it as soon as possible.
 
 If you've found a bug regarding security please mail [gangwar.ramakant@gmail.com](mailto:gangwar.ramakant@gmail.com) instead of using the issue tracker.
 

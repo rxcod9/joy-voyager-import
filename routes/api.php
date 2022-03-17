@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | This file is where you may override any of the routes that are included
-| with VoyagerImport.
+| with VoyagerBulkUpdate.
 |
 */
 
-Route::group(['as' => 'joy-voyager-import.'], function () {
+Route::group(['as' => 'joy-voyager-bulk-update.'], function () {
     // event(new Routing()); @deprecated
 
-    $namespacePrefix = '\\' . config('joy-voyager-import.controllers.namespace') . '\\';
+    $namespacePrefix = '\\' . config('joy-voyager-bulk-update.controllers.namespace') . '\\';
 
     // event(new RoutingAfter()); @deprecated
 });

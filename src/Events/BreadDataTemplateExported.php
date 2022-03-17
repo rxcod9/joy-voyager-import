@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerImport\Events;
+namespace Joy\VoyagerBulkUpdate\Events;
 
 use Illuminate\Queue\SerializesModels;
 use TCG\Voyager\Models\DataType;

@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Joy\VoyagerImport;
+namespace Joy\VoyagerBulkUpdate;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Joy\VoyagerImport\Console\Commands\AllDataTypesImport;
-use Joy\VoyagerImport\Console\Commands\AllDataTypesTemplateExport;
-use Joy\VoyagerImport\Console\Commands\DataTypeImport;
-use Joy\VoyagerImport\Console\Commands\DataTypeTemplateExport;
+use Joy\VoyagerBulkUpdate\Console\Commands\AllDataTypesImport;
+use Joy\VoyagerBulkUpdate\Console\Commands\AllDataTypesTemplateExport;
+use Joy\VoyagerBulkUpdate\Console\Commands\DataTypeImport;
+use Joy\VoyagerBulkUpdate\Console\Commands\DataTypeTemplateExport;
 use TCG\Voyager\Facades\Voyager;
 
 /**
- * Class VoyagerImportServiceProvider
+ * Class VoyagerBulkUpdateServiceProvider
  *
  * @category  Package
- * @package   JoyVoyagerImport
+ * @package   JoyVoyagerBulkUpdate
  * @author    Ramakant Gangwar <gangwar.ramakant@gmail.com>
  * @copyright 2021 Copyright (c) Ramakant Gangwar (https://github.com/rxcod9)
- * @license   http://github.com/rxcod9/joy-voyager-import/blob/main/LICENSE New BSD License
- * @link      https://github.com/rxcod9/joy-voyager-import
+ * @license   http://github.com/rxcod9/joy-voyager-bulk-update/blob/main/LICENSE New BSD License
+ * @link      https://github.com/rxcod9/joy-voyager-bulk-update
  */
-class VoyagerImportServiceProvider extends ServiceProvider
+class VoyagerBulkUpdateServiceProvider extends ServiceProvider
 {
     /**
      * Boot
@@ -31,11 +31,11 @@ class VoyagerImportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Voyager::addAction(\Joy\VoyagerImport\Actions\ImportAction::class);
+        Voyager::addAction(\Joy\VoyagerBulkUpdate\Actions\ImportAction::class);
 
         $this->registerPublishables();
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'joy-voyager-import');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'joy-voyager-bulk-update');
 
         $this->mapApiRoutes();
 
@@ -43,7 +43,7 @@ class VoyagerImportServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'joy-voyager-import');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'joy-voyager-bulk-update');
     }
 
     /**
@@ -64,7 +64,7 @@ class VoyagerImportServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::prefix(config('joy-voyager-import.route_prefix', 'api'))
+        Route::prefix(config('joy-voyager-bulk-update.route_prefix', 'api'))
             ->middleware('api')
             ->group(__DIR__ . '/../routes/api.php');
     }
@@ -76,7 +76,7 @@ class VoyagerImportServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/voyager-import.php', 'joy-voyager-import');
+        $this->mergeConfigFrom(__DIR__ . '/../config/voyager-bulk-update.php', 'joy-voyager-bulk-update');
 
         if ($this->app->runningInConsole()) {
             $this->registerCommands();
@@ -91,11 +91,11 @@ class VoyagerImportServiceProvider extends ServiceProvider
     protected function registerPublishables(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/voyager-import.php' => config_path('joy-voyager-import.php'),
+            __DIR__ . '/../config/voyager-bulk-update.php' => config_path('joy-voyager-bulk-update.php'),
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../resources/views'                => resource_path('views/vendor/joy-voyager-import'),
+            __DIR__ . '/../resources/views'                => resource_path('views/vendor/joy-voyager-bulk-update'),
             __DIR__ . '/../resources/views/bread/partials' => resource_path('views/vendor/voyager/bread/partials'),
         ], 'views');
 
@@ -104,7 +104,7 @@ class VoyagerImportServiceProvider extends ServiceProvider
         ], 'voyager-actions-views');
 
         $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/joy-voyager-import'),
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/joy-voyager-bulk-update'),
         ], 'translations');
     }
 

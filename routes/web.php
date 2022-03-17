@@ -18,11 +18,11 @@ use TCG\Voyager\Facades\Voyager;
 |
 */
 
-Route::group(['prefix' => config('joy-voyager-import.admin_prefix', 'admin')], function () {
+Route::group(['prefix' => config('joy-voyager-bulk-update.admin_prefix', 'admin')], function () {
     Route::group(['as' => 'voyager.'], function () {
         // event(new Routing()); @deprecated
 
-        $namespacePrefix = '\\'.config('joy-voyager-import.controllers.namespace').'\\';
+        $namespacePrefix = '\\'.config('joy-voyager-bulk-update.controllers.namespace').'\\';
 
         Route::group(['middleware' => 'admin.user'], function () use ($namespacePrefix) {
             // event(new RoutingAdmin()); @deprecated

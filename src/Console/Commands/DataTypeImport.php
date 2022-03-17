@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerImport\Console\Commands;
+namespace Joy\VoyagerBulkUpdate\Console\Commands;
 
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Excel;
@@ -42,10 +42,10 @@ class DataTypeImport extends Command
             $path,
         ));
 
-        $importClass = 'joy-voyager-import.import';
+        $importClass = 'joy-voyager-bulk-update.import';
 
-        if (app()->bound('joy-voyager-import.' . $dataType->slug . '.import')) {
-            $importClass = 'joy-voyager-import.' . $dataType->slug . '.import';
+        if (app()->bound('joy-voyager-bulk-update.' . $dataType->slug . '.import')) {
+            $importClass = 'joy-voyager-bulk-update.' . $dataType->slug . '.import';
         }
 
         $import = app($importClass);
@@ -89,14 +89,14 @@ class DataTypeImport extends Command
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'The disk to where you want to import',
-                config('joy-voyager-import.disk')
+                config('joy-voyager-bulk-update.disk')
             ],
             [
                 'readerType',
                 'w',
                 InputOption::VALUE_OPTIONAL,
                 'The readerType in which format you want to import',
-                config('joy-voyager-import.readerType', 'Xlsx')
+                config('joy-voyager-bulk-update.readerType', 'Xlsx')
             ],
         ];
     }
