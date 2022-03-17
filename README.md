@@ -27,10 +27,10 @@ By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 composer require joy/voyager-import
 
 # 2. Publish everything
-php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerBulkUpdateServiceProvider" --force
+php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerImportServiceProvider" --force
 
 # 3. OR Publish Voyager overrided actions blade [MANDATORY STEP FOR IMPORT BULK BUTTON TO WORK]
-php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerBulkUpdateServiceProvider" --tag=voyager-actions-views --force
+php artisan vendor:publish --provider="Joy\VoyagerImport\VoyagerImportServiceProvider" --tag=voyager-actions-views --force
 ```
 
 ---

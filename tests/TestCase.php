@@ -3,7 +3,7 @@
 namespace Joy\VoyagerImport\Tests;
 
 use Dotenv\Dotenv;
-use Joy\VoyagerImport\VoyagerBulkUpdateServiceProvider;
+use Joy\VoyagerImport\VoyagerImportServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra

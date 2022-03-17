@@ -54,7 +54,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Joy\\VoyagerImport\\VoyagerBulkUpdateServiceProvider",
+                "Joy\\VoyagerImport\\VoyagerImportServiceProvider",
                 "Joy\\VoyagerImport\\ImportServiceProvider"
             ]
         }
