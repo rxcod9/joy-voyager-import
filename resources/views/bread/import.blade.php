@@ -72,7 +72,7 @@
                         </ul>
                     </div>
                 </div>
-                <!-- <button type="submit" {!! $action->convertAttributesToHtml() !!}><i class="{{ $action->getIcon() }}"></i> {{ $action->getTitle() }}</button> -->
+                <!-- <button type="submit" {!! $action->convertAttributesToHtml() !!}><i class="{{ $action->getIcon() }}"></i> <span class="hidden-xs hidden-sm">{{ $action->getTitle() }}</span></button> -->
                 <input type="hidden" name="action" value="{{ get_class($action) }}">
                 <!-- <input type="hidden" name="ids" value="" class="selected_ids"> -->
                 <!-- <input type="hidden" name="ids" id="bulk_import_input" value=""> -->
