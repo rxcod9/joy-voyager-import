@@ -5,7 +5,6 @@ namespace Joy\VoyagerImport\Http\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Joy\VoyagerImport\Jobs\AsyncImport;
 use TCG\Voyager\Facades\Voyager;
 use Maatwebsite\Excel\Excel;
@@ -76,7 +75,7 @@ trait ImportAction
                 $disk,
                 $readerType
             );
-            
+
             return redirect()->back()->with([
                 'message'    => __('joy-voyager-import::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
                 'alert-type' => 'success',
