@@ -98,4 +98,19 @@ return [
         // 'users' => 'email',
         // 'YOUR_DATATYPE_SLUG' => 'MODEL_UNIQUE_KEY',
     ],
+
+    /*
+     * If you want to import asynchronously through queue.
+     */
+    'async' => env('VOYAGER_IMPORT_ASYNC', false),
+
+    /*
+     * If you want to import all asynchronously through queue.
+     */
+    'all_async' => env('VOYAGER_IMPORT_ALL_ASYNC', true),
+
+    /*
+     * Configure Notification via options.
+     */
+    'notification_via' => array_filter(explode(',', env('VOYAGER_IMPORT_NOTIFICATION_VIA', 'mail,database'))),
 ];

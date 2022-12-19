@@ -4,7 +4,9 @@ namespace Joy\VoyagerImport\Actions;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Joy\VoyagerImport\Jobs\AsyncImport;
 use TCG\Voyager\Actions\AbstractAction;
 use TCG\Voyager\Facades\Voyager;
 use Maatwebsite\Excel\Excel;
@@ -110,15 +112,38 @@ class ImportAction extends AbstractAction
 
         $import->set(
             $dataType,
-            request()->all(),
-        )->import(
-            request()->file('file'),
+            request()->except('file'),
+        );
+
+        $file = request()->file('file');
+
+        $path = 'imports/' . $file->hashName();
+
+        Storage::disk($disk)->put('imports', $file);
+
+        if (!$this->shouldImportAsync($import)) {
+            $import->import(
+                $path,
+                $disk,
+                $readerType
+            );
+
+            return redirect($comingFrom)->with([
+                'message'    => __('joy-voyager-import::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+                'alert-type' => 'success',
+            ]);
+        }
+
+        AsyncImport::dispatch(
+            request()->user(),
+            $import,
+            $path,
             $disk,
             $readerType
         );
 
         return redirect($comingFrom)->with([
-            'message'    => __('joy-voyager-import::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+            'message'    => __('joy-voyager-import::generic.successfully_import_queued') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
             'alert-type' => 'success',
         ]);
     }
@@ -142,5 +167,10 @@ class ImportAction extends AbstractAction
         }
 
         return $slug;
+    }
+
+    protected function shouldImportAsync($import)
+    {
+        return config('joy-voyager-import.async', false) === true;
     }
 }

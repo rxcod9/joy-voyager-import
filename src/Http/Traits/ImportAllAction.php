@@ -3,7 +3,9 @@
 namespace Joy\VoyagerImport\Http\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Joy\VoyagerImport\Jobs\AsyncImport;
 use Maatwebsite\Excel\Excel;
 
 trait ImportAllAction
@@ -46,16 +48,44 @@ trait ImportAllAction
         $import = app($importClass);
 
         $import->set(
-            $request->all(),
-        )->import(
-            request()->file('file'),
+            request()->all(),
+        );
+
+        $file = request()->file('file');
+
+        $path = 'imports/' . $file->hashName();
+
+        Storage::disk($disk)->put('imports', $file);
+
+        if (!$this->shouldImportAllAsync($import)) {
+            $import->import(
+                $path,
+                $disk,
+                $readerType
+            );
+
+            return redirect()->back()->with([
+                'message'    => __('joy-voyager-import::generic.successfully_imported_all'),
+                'alert-type' => 'success',
+            ]);
+        }
+
+        AsyncImport::dispatch(
+            request()->user(),
+            $import,
+            $path,
             $disk,
             $readerType
         );
 
         return redirect()->back()->with([
-            'message'    => __('joy-voyager-import::generic.successfully_imported_all'),
+            'message'    => __('joy-voyager-import::generic.successfully_imported_all_queued'),
             'alert-type' => 'success',
         ]);
+    }
+
+    protected function shouldImportAllAsync($import)
+    {
+        return config('joy-voyager-import.all_async', false) === true;
     }
 }

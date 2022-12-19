@@ -67,7 +67,7 @@ class AllDataTypesTemplateExport implements
 
             $export = app($exportClass);
 
-            $sheets[$dataType->getTranslatedAttribute('display_name_plural')] = $export->set(
+            $sheets[] = $export->set(
                 $dataType,
                 [],
                 $this->input

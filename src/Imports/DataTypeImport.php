@@ -265,7 +265,10 @@ class DataTypeImport implements
         // If a column has a relationship associated with it, we do not want to show that field
         // $this->removeRelationshipField($this->dataType, 'browse');
 
-        $data->id = $item['id'] ?? $item[''] ?? null;
+        $id = $item['id'] ?? $item[''] ?? null;
+        if ($id) {
+            $data->id = $item['id'] ?? $item[''] ?? null;
+        }
 
         foreach ($this->dataType->rows as $row) {
             if ($data->hasSetMutator($row->field . '_import')) {

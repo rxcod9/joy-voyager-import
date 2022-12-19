@@ -4,6 +4,9 @@ namespace Joy\VoyagerImport\Http\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Joy\VoyagerImport\Jobs\AsyncImport;
 use TCG\Voyager\Facades\Voyager;
 use Maatwebsite\Excel\Excel;
 
@@ -58,16 +61,44 @@ trait ImportAction
 
         $import->set(
             $dataType,
-            $request->all(),
-        )->import(
-            request()->file('file'),
+            request()->all(),
+        );
+
+        $file = request()->file('file');
+
+        $path = 'imports/' . $file->hashName();
+
+        Storage::disk($disk)->put('imports', $file);
+
+        if (!$this->shouldImportAsync($import)) {
+            $import->import(
+                $path,
+                $disk,
+                $readerType
+            );
+            
+            return redirect()->back()->with([
+                'message'    => __('joy-voyager-import::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+                'alert-type' => 'success',
+            ]);
+        }
+
+        AsyncImport::dispatch(
+            request()->user(),
+            $import,
+            $path,
             $disk,
             $readerType
         );
 
         return redirect()->back()->with([
-            'message'    => __('joy-voyager-import::generic.successfully_imported') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+            'message'    => __('joy-voyager-import::generic.successfully_import_queued') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
             'alert-type' => 'success',
         ]);
+    }
+
+    protected function shouldImportAsync($import)
+    {
+        return config('joy-voyager-import.async', false) === true;
     }
 }

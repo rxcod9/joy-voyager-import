@@ -64,7 +64,7 @@ class AllDataTypesImport implements
 
             $import = app($importClass);
 
-            $sheets[$dataType->getTranslatedAttribute('display_name_plural')] = $import->set(
+            $sheets[] = $import->set(
                 $dataType,
                 [],
                 $this->input
