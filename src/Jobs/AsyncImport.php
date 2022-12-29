@@ -32,10 +32,10 @@ class AsyncImport implements ShouldQueue
         $disk,
         $readerType
     ) {
-        $this->user = $user;
-        $this->import = $import;
-        $this->file = $file;
-        $this->disk = $disk;
+        $this->user       = $user;
+        $this->import     = $import;
+        $this->file       = $file;
+        $this->disk       = $disk;
         $this->readerType = $readerType;
     }
 
