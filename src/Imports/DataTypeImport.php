@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\WithProgressBar;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Events\AfterImport;
-use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
+use Joy\VoyagerCore\Http\Controllers\Traits\BreadRelationshipParser;
 use TCG\Voyager\Models\DataType;
 
 class DataTypeImport implements

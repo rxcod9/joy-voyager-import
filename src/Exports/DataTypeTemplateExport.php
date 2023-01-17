@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
+use Joy\VoyagerCore\Http\Controllers\Traits\BreadRelationshipParser;
 use TCG\Voyager\Models\DataType;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Illuminate\Database\Eloquent\Model;

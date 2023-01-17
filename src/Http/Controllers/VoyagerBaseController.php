@@ -6,9 +6,9 @@ use Joy\VoyagerImport\Http\Traits\ImportAction;
 use Joy\VoyagerImport\Http\Traits\ImportAllAction;
 use Joy\VoyagerImport\Http\Traits\ImportAllTemplateAction;
 use Joy\VoyagerImport\Http\Traits\ImportTemplateAction;
-use TCG\Voyager\Http\Controllers\VoyagerBaseController as TCGVoyagerBaseController;
+use Joy\VoyagerCore\Http\Controllers\VoyagerBaseController as BaseVoyagerBaseController;
 
-class VoyagerBaseController extends TCGVoyagerBaseController
+class VoyagerBaseController extends BaseVoyagerBaseController
 {
     use ImportAction;
     use ImportAllAction;
