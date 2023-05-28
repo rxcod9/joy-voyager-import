@@ -210,7 +210,7 @@ class DataTypeTemplateExport implements
                 //     $column = Voyager::image($data->{$row->field});
                 // } else {
                 $column = $data->{$row->field};
-            // }
+                // }
             } elseif ($row->type == 'relationship') {
                 $column = trim(strip_tags((string) view('voyager::formfields.relationship', [
                     'view'            => 'browse',
